@@ -10,4 +10,4 @@ In other words, if `class A` derives from `class B`, then `Expr<A>` also derives
 
 Additionally, this power can be leveraged during AST traverals with pattern matching based on the highly efficient [Mach7](https://github.com/solodon4/Mach7) library.
 
-It is based on an implementation by @zhammer (with contributions from @elfprince13) on behalf of @Geopipe.
+It is based on an implementation by [Zach Hammer](https://github.com/zhammer/) (with contributions from [Thomas Dickerson](https://github.com/elfprince13/)) on behalf of @Geopipe.
