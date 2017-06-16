@@ -1,0 +1,6 @@
+[submodule "Mach7"]
+	path = deps/Mach7
+	url = https://github.com/solodon4/Mach7
+[submodule "deps/fmt"]
+	path = deps/fmt
+	url = https://github.com/fmtlib/fmt.git
