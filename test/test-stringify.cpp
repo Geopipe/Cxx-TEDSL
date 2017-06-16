@@ -55,13 +55,21 @@ static std::shared_ptr<Environment> make0123Environment() {
 	return std::make_shared<Environment>(boundVars);
 }
 
-static std::shared_ptr<Let<Operator<Integer> > > makeTestLet() {
+static std::shared_ptr<Expr<AnyVal, AnyVal> > erasePlus() {
+	auto plus = std::make_shared<Plus<Integer> >(
+											std::make_shared<Minus<Integer> >(makeInt(0), makeInt(1)),
+											std::make_shared<Minus<Integer> >(makeInt(2), makeInt(3)));
+	
+	return plus;
+}
+
+static std::shared_ptr<Let<Integer > > makeTestLet() {
 	auto env = std::shared_ptr<Environment>(make0123Environment());
 	auto sym0 = std::make_shared<Symbol<Integer> >("zero",env);
 	auto sym1 = std::make_shared<Symbol<Integer> >("one",env);
 	auto sym2 = std::make_shared<Symbol<Integer> >("two",env);
 	auto sym3 = std::make_shared<Symbol<Integer> >("three",env);
-	return std::make_shared<Let<Operator<Integer> > >(env,
+	return std::make_shared<Let<Integer > >(env,
 							 std::make_shared<Plus<Integer> >(std::make_shared<Minus<Integer> >(sym0, sym1),
 															  std::make_shared<Minus<Integer> >(sym2, sym3)));
 }
@@ -116,6 +124,26 @@ static void testtedsl_mach7_stringify_let_literal() {
  * ---------------
  */
 
+static void testtedsl_dynamic_casts() {
+	Expr<AnyVal, AnyVal> *plusGen = erasePlus().get();
+	fmt::printf("TESTING CASTS:\n");
+	fmt::printf("%s\n",typeid(*plusGen).name());
+	
+	auto a=dynamic_cast<Expr<Number, AnyVal>* >(plusGen);
+	auto b=dynamic_cast<Expr<Integer, Number>* >(plusGen);
+	auto c=dynamic_cast<Operator<AnyVal, AnyVal>* >(plusGen);
+	auto d=dynamic_cast<Operator<Number, AnyVal>* >(plusGen);
+	auto e=dynamic_cast<Operator<Integer, Number>* >(plusGen);
+	auto f=dynamic_cast<Plus<Integer>* >(plusGen);
+	
+	auto aa=dynamic_cast<_Expr<AnyVal>* >(plusGen);
+	auto bb=dynamic_cast<_Expr<Number>* >(plusGen);
+	auto cc=dynamic_cast<_Expr<Integer>* >(plusGen);
+	
+	fmt::printf("%p %p %p %p %p %p %p\n",(void*)plusGen, (void*)a, (void*)b,(void*)c,(void*)d,(void*)e,(void*)f);
+	fmt::printf("%p %p %p\n\n",(void*)aa, (void*)bb, (void*)cc);
+}
+
 static void testtedsl_let_getresult() {
 	fmt::printf("---\ntesting SPExpr<T> Let::getResult\n---\n");
 	auto let = makeTestLet();
@@ -137,6 +165,7 @@ int main(int argc, char *argv[]) {
 	testtedsl_mach7_stringify_ops();
 	testtedsl_mach7_stringify_let_symbolic();
 	testtedsl_mach7_stringify_let_literal();
+	testtedsl_dynamic_casts();
 	testtedsl_let_getresult();
 	return 0;
 }
