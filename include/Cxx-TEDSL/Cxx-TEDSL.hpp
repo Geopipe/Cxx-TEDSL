@@ -170,8 +170,11 @@ namespace mch
 	template <> struct bindings<Boolean> { Members(Boolean::b_); };
 	
 	/* Operator bindings */
-	template <> struct bindings<Plus<Number>> { Members(Plus<Number>::left,Plus<Number>::right); };
-	template <> struct bindings<Minus<Number>> { Members(Minus<Number>::left,Minus<Number>::right); };
+	// TODO: make a proper base for BinOp base for Number.
+	template <> struct bindings<Plus<Integer>> { Members(Plus<Integer>::left,Plus<Integer>::right); };
+	template <> struct bindings<Minus<Integer>> { Members(Minus<Integer>::left,Minus<Integer>::right); };
+	template <> struct bindings<Plus<Float>> { Members(Plus<Float>::left,Plus<Float>::right); };
+	template <> struct bindings<Minus<Float>> { Members(Minus<Float>::left,Minus<Float>::right); };
 	
 	/* Variable bindings */
 	template <> struct bindings<Symbol<AnyVal> > { Members(TEDSL::detail::SymBase::name_, TEDSL::detail::SymBase::boundFrom_); };

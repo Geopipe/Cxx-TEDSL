@@ -80,6 +80,18 @@ void TEDSL::stringify(Node& n, size_t indent, bool isSymbolic) {
 		printIndent(indent, "%f", f);
 		break;
 		
+		Case(mch::C<Plus<Integer> >(left,right))
+		printIndent(indent, "(+");
+		stringify(*left,indent +1,isSymbolic);
+		stringify(*right,indent +1,isSymbolic);
+		fmt::printf(")\n");
+		
+		Case(mch::C<Minus<Integer> >(left,right))
+		printIndent(indent, "(-");
+		stringify(*left,indent +1,isSymbolic);
+		stringify(*right,indent +1,isSymbolic);
+		fmt::printf(")\n");
+		
 		/*
 		 * with context: zero is a variable bound to 0.
 		 * {symbolic:}    zero
