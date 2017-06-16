@@ -69,6 +69,8 @@ namespace TEDSL {
 	public:
 		typedef _Super Super;
 		
+		// TODO: This should do the same tests that Environment::getBoundVar does
+		// for static rather than dynamic type-checking.
 		template<class A1, class A2> Symbol(A1&& name, A2&& boundFrom)
 		: detail::SymBase(forward<A1>(name), forward<A2>(boundFrom)) {};
 		
