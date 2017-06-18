@@ -38,11 +38,6 @@
  * to print TEDSL trees either symbolically (printing the string name
  * of symbolic vars) or literally (printing the bound literals of
  * symbols).
- *
- * In the current implementation, raw pointers to members of nodes are
- * returned in the Case() macro. This is mainly to avoid unique_ptr
- * copying. May switch to shared_ptrs or figure out refernce variable
- * passing.
  */
 void TEDSL::stringify(Node& n, size_t indent, bool isSymbolic) {
 	// Literal members
